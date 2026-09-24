@@ -1,0 +1,24 @@
+# run artifacts — raw replies are kept locally, never published
+runs/
+*.jsonl
+summary_*.json
+speed_*.json
+showdown_*.md
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# secrets and machine-local files
+.env
+*.key
+*.pem
+*.token
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

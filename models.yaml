@@ -1,0 +1,52 @@
+# llm-showdown model registry
+#
+# Every candidate is described the same way so the stand-off is apples to apples.
+# FAIRNESS RULE: a showdown must run every candidate on the SAME server binary
+# with the SAME ctx, KV type, MTP settings and threads. Only the weights differ.
+# Put the shared binary in `defaults` and override per model only when you are
+# deliberately testing something else (and say so in the report).
+
+defaults:
+  binary: /home/joshua/llama.cpp-mtp/llama-server   # b10909 — has NVFP4 + MTP
+  ctx: 163840
+  threads: 8            # physical cores; irrelevant when fully GPU-resident
+  threads_batch: 8
+  cache_type_k: q8_0
+  cache_type_v: q8_0
+  headroom_mib: 3000    # KV cache + compute buffers we must leave free
+  load_timeout_s: 420
+  port: 8095
+
+incumbent_port: 8080
+service: llama-server
+bench_port: 8095
+
+models:
+
+  qwen38-27b-q4kxl:
+    label: "Qwen3.8-27B UD-Q4_K_XL (incumbent)"
+    gguf: /home/joshua/llama.cpp/models/Qwen3.8-27B-UD-Q4_K_XL-GGUF/Qwen3.8-27B-UD-Q4_K_XL.gguf
+    spec_type: draft-mtp
+    spec_draft_n_max: 2
+    notes: >
+      The current production model: dense 27B, ~17.9 GB, fully GPU-resident,
+      MTP layers embedded in the GGUF. Baseline for every showdown.
+
+  swift-27b-nvfp4:
+    label: "Swift-Qwen3.8-27B NVFP4 Q8mix"
+    gguf: /home/joshua/llama.cpp/models/Swift-Qwen3.8-27B-NVFP4-Q8mix.gguf
+    spec_type: draft-mtp
+    spec_draft_n_max: 3
+    notes: >
+      UkisAI's reasoning-efficiency fine-tune (thinking-token penalty LoRA),
+      repacked to GGUF without requantizing the NVFP4 tensors. 19.72 GB.
+      Hypothesis under test: fewer thinking tokens per turn beats raw accuracy.
+
+  qwen38-27b-nvfp4-imatrix:
+    label: "Qwen3.8-27B iMatrix NVFP4 (vanilla)"
+    gguf: /home/joshua/llama.cpp/models/Qwen3.8-27B-iMatrix-NVFP4-MTP.gguf
+    spec_type: draft-mtp
+    spec_draft_n_max: 2
+    notes: >
+      Vanilla Qwen3.8-27B, iMatrix-calibrated mixed NVFP4 (17.1 GB), calibrated
+      on real Hermes agent sessions. Community default for this use case.

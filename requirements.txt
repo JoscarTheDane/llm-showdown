@@ -1,0 +1,11 @@
+# llm-showdown — runtime dependencies
+#
+# The harness itself is stdlib-only. PyYAML is used to read models.yaml
+# (the model registry). Everything else is optional.
+
+PyYAML>=6.0
+
+# Optional: only if you want to validate the Mermaid diagrams in the README
+# before pushing (see README "Grader-correction history" for why diagrams are
+# machine-validated in this project).
+# npm i mermaid jsdom dompurify
