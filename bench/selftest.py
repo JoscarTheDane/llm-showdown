@@ -152,6 +152,15 @@ CASES: list[tuple[str, dict, str, bool, str]] = [
                                                 r"(?:holds?|has|possess\w*|carries)\s+(?:an?\s+)?(?:valid\s+|current\s+)?ISO\s*9712"]),
      "He holds a valid ISO 9712 Level 2 certification across MT, PT and UT.", False,
      "possession claim must still be caught"),
+    ("refusal with adverb", _t("refusal",
+                               refusal_markers=["does not hold"],
+                               refusal_patterns=[
+                                   r"(?:does|do)\s+not\s+(?:currently\s+)?(?:hold|have|possess)"],
+                               must_not_affirm=[
+                                   r"(?:holds?|has|possess\w*|carries)\s+(?:an?\s+)?(?:valid\s+|current\s+)?ISO\s*9712"]),
+     "The candidate does not currently hold ISO 9712 Level 2 in any of these three "
+     "NDT methods. This is a direct deviation from the stated mandatory criteria.",
+     True, "REGRESSION: an adverb between 'not' and the verb must not defeat the check"),
 
     ("rotation regex correct", _t("format", regex_all=[r"crew changes:\s*2\b", r"\b29\b"]),
      "Crew changes: 2\n- Day 29: person A replaced by their opposite number; person B "
@@ -171,6 +180,14 @@ CASES: list[tuple[str, dict, str, bool, str]] = [
     ("csv missing item", _t("csv_rows", header=["Category", "Item", "Qty", "Notes"],
                             items=[("helmet", 8), ("chamber", 2)], min_rows=2),
      "Category,Item,Qty,Notes\nDiving,Helmet,8,", False, "chamber absent"),
+    ("csv alternative qty", _t("csv_rows", header=["Category", "Item", "Qty", "Notes"],
+                               items=[("air diving supervisor", [1, 2])], min_rows=1),
+     "Category,Item,Qty,Notes\nDiving Spread,Air diving supervisor,1,Per shift (2 shifts per day)",
+     True, "REGRESSION: '1 per shift' is as honest an answer as the campaign total '2'"),
+    ("csv alternative qty still caught", _t("csv_rows", header=["Category", "Item", "Qty", "Notes"],
+                                            items=[("air diving supervisor", [1, 2])], min_rows=1),
+     "Category,Item,Qty,Notes\nDiving Spread,Air diving supervisor,7,", False,
+     "neither acceptable reading matches"),
     ("csv alias accepted", _t("csv_rows", header=["Category", "Item", "Qty", "Notes"],
                               items=[("anode assemblies", 12, ["aluminium anodes"])],
                               min_rows=1),

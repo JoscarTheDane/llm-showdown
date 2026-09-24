@@ -306,6 +306,18 @@ TASKS: list[dict] = [
                 "does not hold", "not held", "do not hold", "does not include",
                 "not currently certified", "without", "lacks", "no ISO 9712", "not in possession",
             ],
+            # Regex form, because literal markers are brittle: an answer that
+            # correctly says "does not CURRENTLY hold" is still a refusal, and a
+            # bare substring list scored it as a failure.
+            "refusal_patterns": [
+                r"(?:does|do)\s+not\s+(?:currently\s+)?(?:hold|have|possess)",
+                r"not\s+(?:currently\s+)?(?:certified|qualified|held|in\s+possession)",
+                r"\blacks?\b",
+                r"\bno\s+ISO\s*9712\b",
+                r"\bwithout\s+(?:the\s+)?ISO\s*9712",
+                r"non-?conformance",
+                r"not\s+a\s+compliant\s+fit",
+            ],
             # These must forbid a POSSESSION CLAIM, not the words "ISO 9712".
             # A sentence describing the posting's mandatory requirement is correct
             # behaviour, and an earlier version of this pattern failed exactly that.
@@ -333,7 +345,10 @@ TASKS: list[dict] = [
                 ("diver helmet", 8, ["helmet"]),
                 ("decompression chamber", 2, ["chamber"]),
                 ("dive control console", 1, ["control console"]),
-                ("air diving supervisor", 2, ["diving supervisor"]),
+                # The SOW says "one (1) per shift, two (2) shifts per day". Both
+                # "1, per shift" and the campaign total "2" are honest manifest
+                # lines, so either quantity is accepted.
+                ("air diving supervisor", [1, 2], ["diving supervisor"]),
                 ("work class ROV", 1, ["work-class ROV"]),
                 ("spare tether", 2, ["tether"]),
                 ("manipulator arm", 1, ["manipulator"]),
@@ -421,15 +436,20 @@ TASKS: list[dict] = [
         "class": "arithmetic",
         "grader": "format",
         "prompt": (
-            "A campaign runs offshore for 45 days. A two-person dive supervisory team "
-            "works a 28/28 rotation: EACH person works 28 days on, then is replaced by "
-            "their own opposite number, who works the next 28 days. The first pair mobs "
-            "on day 1.\n"
+            "A campaign runs offshore for 45 days and needs two supervisory positions "
+            "manned SIMULTANEOUSLY at all times — Position 1 (diving supervisor) and "
+            "Position 2 (ROV supervisor). On day 1, supervisor A takes Position 1 and "
+            "supervisor B takes Position 2. Each of the two works 28 days, and at the "
+            "end of those 28 days each is replaced by a relief who covers the rest of "
+            "the campaign.\n"
             "State the total number of crew changes (one change = one person being "
             "replaced) and the day numbers on which they occur. "
             "Use the format 'Crew changes: N' and then list the day numbers."
         ),
-        # Each of the two people is replaced once, both on day 29.
+        # Two people, each replaced once, both on day 29.
+        # Phrased around two simultaneously-manned positions on purpose: an
+        # earlier wording ("a two-person team on a 28/28 rotation") read
+        # legitimately as one person on and one off, which changes the answer.
         "expect": {"regex_all": [r"crew changes:\s*2\b", r"\b29\b"]},
         "max_tokens": 2000,
     },
