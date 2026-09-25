@@ -346,6 +346,86 @@ def _check_code_extraction() -> list[str]:
     return problems
 
 
+def _check_registry_merge() -> list[str]:
+    """Regression: a per-model config must inherit `defaults`.
+
+    Without the merge, per-model entries silently ignored the shared server
+    binary — which is the one fairness rule the stand-off depends on — and fell
+    back to a hardcoded path from the author's machine.
+    """
+    import tempfile as _tempfile
+    from pathlib import Path as _Path
+
+    from . import swap
+
+    problems: list[str] = []
+    # Build the fake paths under Path.home() so they are absolute on every
+    # platform — bare "/models/x.gguf" is drive-relative on Windows and would
+    # make this check fail there for reasons unrelated to the merge.
+    base = _Path.home() / "llmsd-selftest"
+    binpath = str(base / "opt" / "llama" / "llama-server")
+    m1 = str(base / "models" / "m1.gguf")
+    m2 = str(base / "m2.gguf")
+    reg = {
+        "defaults": {"binary": binpath, "ctx": 32768, "threads": 8},
+        "models": {"m1": {"gguf": m1}},
+    }
+    cfg = swap.merge_defaults(reg, "m1")
+    if cfg.get("binary") != binpath:
+        problems.append("model config did not inherit defaults.binary")
+    if cfg.get("ctx") != 32768:
+        problems.append("model config did not inherit defaults.ctx")
+    if cfg.get("gguf") != m1:
+        problems.append("the model's own key was lost in the merge")
+    if cfg.get("name") != "m1":
+        problems.append("merged config did not record the model name")
+
+    reg["models"]["m2"] = {"gguf": m2, "ctx": 4096}
+    if swap.merge_defaults(reg, "m2").get("ctx") != 4096:
+        problems.append("a per-model override did not win over defaults")
+
+    with _tempfile.TemporaryDirectory() as td:
+        snap = _Path(td) / "models--org--repo" / "snapshots" / "abc123"
+        snap.mkdir(parents=True)
+        (snap / "w.gguf").write_bytes(b"x")
+        got = swap.resolve_gguf(str(base / "nonexistent" / "w.gguf"), cache_root=td)
+        if _Path(got) != snap / "w.gguf":
+            problems.append(f"huggingface cache resolution failed: {got}")
+        unresolvable = str(base / "nonexistent" / "other.gguf")
+        if _Path(swap.resolve_gguf(unresolvable, cache_root=td)) != _Path(unresolvable):
+            problems.append("an unresolvable path must be returned unchanged")
+    return problems
+
+
+def _check_sudo_narrow_dropin():
+    # The recommended setup is a command-restricted NOPASSWD drop-in that
+    # authorises only the systemctl verbs for the service. Two regressions to
+    # guard against, both checked statically so the test is box-independent:
+    #  1. The gate must probe the REAL command it will later run
+    #     (sudo_available(service) — systemctl is-active <service>), not
+    #     `sudo -n true`, which a command-restricted drop-in refuses even
+    #     though every call the manager makes is permitted.
+    #  2. The service probe must accept rc 3 (permitted, service inactive),
+    #     not just rc 0 — the manager legitimately runs while its own
+    #     incumbent is stopped.
+    import re
+    from pathlib import Path as _Path
+
+    src = _Path(__file__).with_name("swap.py").read_text(encoding="utf-8")
+    problems = []
+    if not re.search(r"def sudo_available\(service", src):
+        problems.append("sudo_available() lost its service parameter")
+    m = re.search(r"def sudo_available.*?(?=\ndef )", src, re.S)
+    body = m.group(0) if m else ""
+    if "is-active" not in body:
+        problems.append("sudo_available() does not probe systemctl is-active")
+    if not re.search(r"rc in \(0, ?3\)", body):
+        problems.append("sudo_available() rejects rc 3 (permitted but inactive)")
+    if "sudo_available(self.service)" not in src:
+        problems.append("gate does not pass the service to sudo_available()")
+    return problems
+
+
 def main() -> int:
     # inject the codegen execution results
     cases = []
@@ -382,6 +462,8 @@ def main() -> int:
 
     problems = _check_task_configs()
     problems += _check_code_extraction()
+    problems += _check_registry_merge()
+    problems += _check_sudo_narrow_dropin()
     print()
     if problems:
         for p in problems:

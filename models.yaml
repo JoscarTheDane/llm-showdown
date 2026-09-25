@@ -9,13 +9,27 @@
 defaults:
   binary: /home/joshua/llama.cpp-mtp/llama-server   # b10909 — has NVFP4 + MTP
   ctx: 163840
-  threads: 8            # physical cores; irrelevant when fully GPU-resident
-  threads_batch: 8
+  # Mirrors the production llama-server.service unit exactly, so the bench
+  # measures the models, not the harness (fairness rule).
+  threads: 16
+  threads_batch: 16
   cache_type_k: q8_0
   cache_type_v: q8_0
   headroom_mib: 3000    # KV cache + compute buffers we must leave free
   load_timeout_s: 420
   port: 8095
+  # Production-unit flags not expressed by the manager's fixed command set
+  # (unit: --swa-full --device CUDA0 --main-gpu 0 --cont-batching
+  #        --no-mmproj-offload --reasoning-preserve).
+  extra_args:
+    - --swa-full
+    - --device
+    - "CUDA0"
+    - --main-gpu
+    - "0"
+    - --cont-batching
+    - --no-mmproj-offload
+    - --reasoning-preserve
 
 incumbent_port: 8080
 service: llama-server
@@ -34,9 +48,9 @@ models:
 
   swift-27b-nvfp4:
     label: "Swift-Qwen3.8-27B NVFP4 Q8mix"
-    gguf: /home/joshua/llama.cpp/models/Swift-Qwen3.8-27B-NVFP4-Q8mix.gguf
+    gguf: /home/joshua/.cache/huggingface/hub/models--HuggingJoost--Swift-Qwen3.8-27B-NVFP4-GGUF/snapshots/440d42219353617be1c2a43cd8c2420c7aaedefe/Swift-Qwen3.8-27B-NVFP4-Q8mix.gguf
     spec_type: draft-mtp
-    spec_draft_n_max: 3
+    spec_draft_n_max: 2   # fairness: production n-max for all three; README's n-max 3 is a tuning follow-up, not the bake-off
     notes: >
       UkisAI's reasoning-efficiency fine-tune (thinking-token penalty LoRA),
       repacked to GGUF without requantizing the NVFP4 tensors. 19.72 GB.
@@ -44,7 +58,7 @@ models:
 
   qwen38-27b-nvfp4-imatrix:
     label: "Qwen3.8-27B iMatrix NVFP4 (vanilla)"
-    gguf: /home/joshua/llama.cpp/models/Qwen3.8-27B-iMatrix-NVFP4-MTP.gguf
+    gguf: /home/joshua/.cache/huggingface/hub/models--cdiamond--Qwen3.8-27B-iMatrix-NVFP4-MTP-GGUF/snapshots/ac343e8f44caef0896f79d372ecc07ef7ab34ec8/Qwen3.8-27B-iMatrix-NVFP4-MTP.gguf
     spec_type: draft-mtp
     spec_draft_n_max: 2
     notes: >

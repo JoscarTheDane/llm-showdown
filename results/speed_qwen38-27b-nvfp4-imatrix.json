@@ -1,0 +1,39 @@
+{
+  "model": "/home/joshua/.cache/huggingface/hub/models--cdiamond--Qwen3.8-27B-iMatrix-NVFP4-MTP-GGUF/snapshots/ac343e8f44caef0896f79d372ecc07ef7ab34ec8/Qwen3.8-27B-iMatrix-NVFP4-MTP.gguf",
+  "url": "http://127.0.0.1:8095/v1",
+  "generated_utc": "2026-09-25T09:25:52Z",
+  "rows": [
+    {
+      "depth_requested": 512,
+      "prompt_tokens": 406,
+      "ttft_s": 0.588,
+      "decode_tps": 197.82,
+      "prefill_tps": 690.1,
+      "runs": 3
+    },
+    {
+      "depth_requested": 8192,
+      "prompt_tokens": 5964,
+      "ttft_s": 0.717,
+      "decode_tps": 194.17,
+      "prefill_tps": 8314.8,
+      "runs": 3
+    },
+    {
+      "depth_requested": 32768,
+      "prompt_tokens": 23750,
+      "ttft_s": 0.921,
+      "decode_tps": 179.09,
+      "prefill_tps": 25782.5,
+      "runs": 3
+    },
+    {
+      "depth_requested": 65536,
+      "prompt_tokens": 47468,
+      "ttft_s": 1.029,
+      "decode_tps": 113.66,
+      "prefill_tps": 46146.6,
+      "runs": 3
+    }
+  ]
+}

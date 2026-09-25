@@ -29,6 +29,22 @@ flowchart TD
   REPORT --> RESTORE
 ```
 
+## Results
+
+**Three-way bake-off, 2026-09-25** — [RESULTS-3WAY.md](RESULTS-3WAY.md): three
+Qwen3.8-27B weights (Q4_K_XL incumbent, Swift NVFP4, cdiamond iMatrix NVFP4) on
+one 32 GB card, same binary, same production flags, unattended stand-off chain.
+
+| | pass rate | tokens / correct answer | rig score |
+|---|---|---|---|
+| Q4_K_XL (incumbent) | 92.7% | 406 | 0.9343 |
+| **Swift NVFP4** | **97.6%** | 396 | **0.9784** |
+| cdiamond NVFP4 | 95.1% | **380** | 0.9559 |
+
+Eight of nine task classes were a dead heat; the whole ranking lives in one
+document-extraction task. Full numbers, the speed rig, the honest caveats and
+the promotion recommendation are in the report.
+
 ## The headline metric: cost of a *correct* answer
 
 Not accuracy alone, and not speed alone. For a 24x7 agent on one GPU, a model
@@ -154,9 +170,11 @@ replies and re-grading offline.
 
 ## What is deliberately not here
 
-- **Run artifacts.** `runs/` — raw reply JSONL, per-run summaries, speed results —
-  is git-ignored. Raw replies contain whatever the model was asked, and those
-  prompts are drawn from real working material.
+- **Raw run artifacts.** `runs/` — raw reply JSONL — is git-ignored. Raw
+  replies contain whatever the model was asked, and those prompts are drawn
+  from real working material. A *curated* result set (summaries, speed rows,
+  pairwise reports, the chain log) lives in `results/`; the raw JSONL stays
+  on the machine that produced it.
 - **Model weights.** `models.yaml` records local paths on the author's machine;
   the weights themselves are not distributed here.
 - **Any real correspondence.** Every fixture is synthetic — a fabricated scope of
@@ -177,6 +195,9 @@ bench/swap.py        single-GPU handover manager
 bench/report.py      1v1 scoring and Markdown report
 bench/selftest.py    offline grader validation + config audit
 docs/                methodology, stand-off strategy
+scripts/bakeoff.sh   unattended multi-model bake-off chain (stop/bench/restore per model)
+scripts/watchdog.sh  independent safety net for the chain (stale-marker + 8080-down checks)
+results/             curated published results (see RESULTS-3WAY.md)
 ```
 
 ## License

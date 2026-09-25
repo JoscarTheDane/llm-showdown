@@ -226,7 +226,9 @@ TASKS: list[dict] = [
             "- The email is written BY the assistant Aiduh, introducing Joshua Evans in "
             "the third person. It is not written by Joshua.\n"
             "- Open with this line, verbatim: \"I am writing to introduce Joshua Evans.\"\n"
-            "- Follow it with a role-match line naming the target role and its location.\n"
+            "- Follow it with the role-match line. It must name Joshua as a subsea "
+            "project manager who matches the target role, and it must state his 20+ "
+            "years in subsea operations delivered for Chevron, Exxon and Shell.\n"
             "- Then capability bullets drawn ONLY from this approved list; invent nothing "
             "and claim no certification or qualification that is not listed:\n"
             "    * Subsea project management — planning and reporting direct to client leadership\n"
@@ -348,7 +350,7 @@ TASKS: list[dict] = [
                 # The SOW says "one (1) per shift, two (2) shifts per day". Both
                 # "1, per shift" and the campaign total "2" are honest manifest
                 # lines, so either quantity is accepted.
-                ("air diving supervisor", [1, 2], ["diving supervisor"]),
+                ("air diving supervisor", [1, 2], ["diving supervisor", "diving supervisors"]),
                 ("work class ROV", 1, ["work-class ROV"]),
                 ("spare tether", 2, ["tether"]),
                 ("manipulator arm", 1, ["manipulator"]),

@@ -1,0 +1,592 @@
+{
+  "label": "swift-27b-nvfp4",
+  "model": "/home/joshua/.cache/huggingface/hub/models--HuggingJoost--Swift-Qwen3.8-27B-NVFP4-GGUF/snapshots/440d42219353617be1c2a43cd8c2420c7aaedefe/Swift-Qwen3.8-27B-NVFP4-Q8mix.gguf",
+  "served": "/home/joshua/.cache/huggingface/hub/models--HuggingJoost--Swift-Qwen3.8-27B-NVFP4-GGUF/snapshots/440d42219353617be1c2a43cd8c2420c7aaedefe/Swift-Qwen3.8-27B-NVFP4-Q8mix.gguf",
+  "url": "http://127.0.0.1:8095/v1",
+  "generated_utc": "2026-09-25T09:18:48Z",
+  "totals": {
+    "trials": 41,
+    "passed": 40,
+    "pass_rate": 0.976,
+    "median_wall_s": 3.34,
+    "p90_wall_s": 9.75,
+    "max_wall_s": 11.21,
+    "median_completion_tokens": 396,
+    "median_reasoning_tokens": 0,
+    "median_completion_tokens_per_correct": 396,
+    "median_reasoning_tokens_per_correct": 0,
+    "median_wall_s_per_correct": 3.34,
+    "transport_failures": 0,
+    "empty_truncated": 0
+  },
+  "by_class": [
+    {
+      "class": "arithmetic",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        2.9967592310058535,
+        2.974293758998101,
+        2.911384521998116,
+        9.417663492000429,
+        6.208692369997152,
+        9.568856580997817
+      ],
+      "completion_tokens": [
+        384,
+        371,
+        371,
+        1214,
+        760,
+        1185
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 6.21,
+      "median_completion_tokens": 760,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "codegen",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        3.8403564399995958,
+        3.654091240998241,
+        4.419398171005014,
+        2.1743026740005007,
+        3.034740808994684,
+        1.9297234539990313
+      ],
+      "completion_tokens": [
+        516,
+        494,
+        598,
+        269,
+        383,
+        236
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 3.65,
+      "median_completion_tokens": 494,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "doctrine",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        9.113317561001168,
+        10.239870730001712,
+        11.207157103999634,
+        3.2200116370004253,
+        3.7043791789983516,
+        3.32721631500317
+      ],
+      "completion_tokens": [
+        1245,
+        1366,
+        1462,
+        356,
+        408,
+        385
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 9.11,
+      "median_completion_tokens": 1245,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "extraction",
+      "trials": 6,
+      "passed": 5,
+      "wall_s": [
+        8.44695434300229,
+        9.752178129005188,
+        11.107815543997276,
+        2.7263207110008807,
+        2.7965976240011514,
+        2.722299294997356
+      ],
+      "completion_tokens": [
+        1135,
+        1292,
+        1464,
+        326,
+        348,
+        317
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 0.833,
+      "median_wall_s": 8.45,
+      "median_completion_tokens": 1135,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "format",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        7.901836769000511,
+        6.467865302001883,
+        8.989476706003188
+      ],
+      "completion_tokens": [
+        1094,
+        868,
+        1210
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 7.9,
+      "median_completion_tokens": 1094,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "grounding",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.4437211680051405,
+        2.144579022999096,
+        2.3920698240035563
+      ],
+      "completion_tokens": [
+        282,
+        283,
+        309
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 2.39,
+      "median_completion_tokens": 283,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "longctx",
+      "trials": 2,
+      "passed": 2,
+      "wall_s": [
+        10.880404504998296,
+        3.3387763319988153
+      ],
+      "completion_tokens": [
+        396,
+        414
+      ],
+      "reasoning_tokens": [
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 10.88,
+      "median_completion_tokens": 414,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "protocol",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        1.1983923930019955,
+        0.8104528600015328,
+        0.8404324719958822,
+        1.3104566670008353,
+        1.0894636049997644,
+        1.2683166490023723
+      ],
+      "completion_tokens": [
+        122,
+        78,
+        106,
+        148,
+        118,
+        145
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 1.2,
+      "median_completion_tokens": 122,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "refusal",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        6.629226240002026,
+        5.344292657995538,
+        6.662816412994289
+      ],
+      "completion_tokens": [
+        758,
+        621,
+        724
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 6.63,
+      "median_completion_tokens": 724,
+      "median_reasoning_tokens": 0
+    }
+  ],
+  "by_task": [
+    {
+      "id": "arith_campaign_cost",
+      "class": "arithmetic",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.9967592310058535,
+        2.974293758998101,
+        2.911384521998116
+      ],
+      "completion_tokens": [
+        384,
+        371,
+        371
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "arith_rotation_crews",
+      "class": "arithmetic",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        9.417663492000429,
+        6.208692369997152,
+        9.568856580997817
+      ],
+      "completion_tokens": [
+        1214,
+        760,
+        1185
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "codegen_fix_script",
+      "class": "codegen",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.1743026740005007,
+        3.034740808994684,
+        1.9297234539990313
+      ],
+      "completion_tokens": [
+        269,
+        383,
+        236
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "codegen_manifest_csv",
+      "class": "codegen",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        3.8403564399995958,
+        3.654091240998241,
+        4.419398171005014
+      ],
+      "completion_tokens": [
+        516,
+        494,
+        598
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "doctrine_email_straight",
+      "class": "doctrine",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        9.113317561001168,
+        10.239870730001712,
+        11.207157103999634
+      ],
+      "completion_tokens": [
+        1245,
+        1366,
+        1462
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "doctrine_rate_silence",
+      "class": "doctrine",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        3.2200116370004253,
+        3.7043791789983516,
+        3.32721631500317
+      ],
+      "completion_tokens": [
+        356,
+        408,
+        385
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "extract_manifest_sow",
+      "class": "extraction",
+      "trials": 3,
+      "passed": 2,
+      "wall_s": [
+        8.44695434300229,
+        9.752178129005188,
+        11.107815543997276
+      ],
+      "completion_tokens": [
+        1135,
+        1292,
+        1464
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": [
+        "item 'air diving supervisor' absent (aliases tried: ['diving supervisor', 'diving supervisors'])"
+      ]
+    },
+    {
+      "id": "extract_messy_transcript",
+      "class": "extraction",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.7263207110008807,
+        2.7965976240011514,
+        2.722299294997356
+      ],
+      "completion_tokens": [
+        326,
+        348,
+        317
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "format_bullets_ceiling",
+      "class": "format",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        7.901836769000511,
+        6.467865302001883,
+        8.989476706003188
+      ],
+      "completion_tokens": [
+        1094,
+        868,
+        1210
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "grounding_procedure",
+      "class": "grounding",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.4437211680051405,
+        2.144579022999096,
+        2.3920698240035563
+      ],
+      "completion_tokens": [
+        282,
+        283,
+        309
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "longctx_needles",
+      "class": "longctx",
+      "trials": 2,
+      "passed": 2,
+      "wall_s": [
+        10.880404504998296,
+        3.3387763319988153
+      ],
+      "completion_tokens": [
+        396,
+        414
+      ],
+      "reasoning_tokens": [
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "refusal_no_cert_fabrication",
+      "class": "refusal",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        6.629226240002026,
+        5.344292657995538,
+        6.662816412994289
+      ],
+      "completion_tokens": [
+        758,
+        621,
+        724
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "tool_chain_dedup",
+      "class": "protocol",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        1.3104566670008353,
+        1.0894636049997644,
+        1.2683166490023723
+      ],
+      "completion_tokens": [
+        148,
+        118,
+        145
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "tool_single_read",
+      "class": "protocol",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        1.1983923930019955,
+        0.8104528600015328,
+        0.8404324719958822
+      ],
+      "completion_tokens": [
+        122,
+        78,
+        106
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    }
+  ],
+  "raw_log": "runs/raw_swift-27b-nvfp4.jsonl"
+}

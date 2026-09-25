@@ -1,0 +1,594 @@
+{
+  "label": "qwen38-27b-q4kxl",
+  "model": "/home/joshua/llama.cpp/models/Qwen3.8-27B-UD-Q4_K_XL-GGUF/Qwen3.8-27B-UD-Q4_K_XL.gguf",
+  "served": "/home/joshua/llama.cpp/models/Qwen3.8-27B-UD-Q4_K_XL-GGUF/Qwen3.8-27B-UD-Q4_K_XL.gguf",
+  "url": "http://127.0.0.1:8095/v1",
+  "generated_utc": "2026-09-25T09:13:18Z",
+  "totals": {
+    "trials": 41,
+    "passed": 38,
+    "pass_rate": 0.927,
+    "median_wall_s": 3.79,
+    "p90_wall_s": 10.23,
+    "max_wall_s": 12.76,
+    "median_completion_tokens": 432,
+    "median_reasoning_tokens": 0,
+    "median_completion_tokens_per_correct": 406,
+    "median_reasoning_tokens_per_correct": 0,
+    "median_wall_s_per_correct": 3.51,
+    "transport_failures": 0,
+    "empty_truncated": 0
+  },
+  "by_class": [
+    {
+      "class": "arithmetic",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        2.748370455999975,
+        2.661349968999275,
+        2.723824078006146,
+        8.038216132001253,
+        6.7975789539996185,
+        11.72325025399914
+      ],
+      "completion_tokens": [
+        366,
+        357,
+        365,
+        1070,
+        875,
+        1513
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 6.8,
+      "median_completion_tokens": 875,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "codegen",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        4.8571099339969805,
+        3.908283782999206,
+        3.787184504995821,
+        1.9724064910042216,
+        3.0938531260035234,
+        2.9971059130039066
+      ],
+      "completion_tokens": [
+        698,
+        557,
+        551,
+        256,
+        405,
+        375
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 3.79,
+      "median_completion_tokens": 551,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "doctrine",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        11.443186388998583,
+        10.226190198998665,
+        11.28325084100652,
+        4.219048567996651,
+        3.4269507779972628,
+        5.38959542500379
+      ],
+      "completion_tokens": [
+        1557,
+        1413,
+        1588,
+        517,
+        386,
+        629
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 10.23,
+      "median_completion_tokens": 1413,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "extraction",
+      "trials": 6,
+      "passed": 3,
+      "wall_s": [
+        9.798999753002136,
+        9.771209585000179,
+        10.127742447002674,
+        3.031828718005272,
+        2.4031275390007067,
+        2.8537985119983205
+      ],
+      "completion_tokens": [
+        1395,
+        1395,
+        1410,
+        403,
+        317,
+        385
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 0.5,
+      "median_wall_s": 9.77,
+      "median_completion_tokens": 1395,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "format",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        6.875808511998912,
+        6.668438995999168,
+        6.333346184997936
+      ],
+      "completion_tokens": [
+        1005,
+        961,
+        943
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 6.67,
+      "median_completion_tokens": 961,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "grounding",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.59939088900137,
+        2.1826358859980246,
+        2.529672381999262
+      ],
+      "completion_tokens": [
+        301,
+        308,
+        323
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 2.53,
+      "median_completion_tokens": 308,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "longctx",
+      "trials": 2,
+      "passed": 2,
+      "wall_s": [
+        12.764286473000539,
+        3.5112618419952923
+      ],
+      "completion_tokens": [
+        406,
+        432
+      ],
+      "reasoning_tokens": [
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 12.76,
+      "median_completion_tokens": 432,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "protocol",
+      "trials": 6,
+      "passed": 6,
+      "wall_s": [
+        0.8193815909980913,
+        0.5540098150013364,
+        0.5899386230012169,
+        1.0035919290021411,
+        1.0828797559952363,
+        1.0906811780005228
+      ],
+      "completion_tokens": [
+        78,
+        74,
+        79,
+        117,
+        120,
+        129
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 1.0,
+      "median_completion_tokens": 117,
+      "median_reasoning_tokens": 0
+    },
+    {
+      "class": "refusal",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        5.7636509939984535,
+        6.477192769001704,
+        7.268646508004167
+      ],
+      "completion_tokens": [
+        719,
+        742,
+        814
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "pass_rate": 1.0,
+      "median_wall_s": 6.48,
+      "median_completion_tokens": 742,
+      "median_reasoning_tokens": 0
+    }
+  ],
+  "by_task": [
+    {
+      "id": "arith_campaign_cost",
+      "class": "arithmetic",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.748370455999975,
+        2.661349968999275,
+        2.723824078006146
+      ],
+      "completion_tokens": [
+        366,
+        357,
+        365
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "arith_rotation_crews",
+      "class": "arithmetic",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        8.038216132001253,
+        6.7975789539996185,
+        11.72325025399914
+      ],
+      "completion_tokens": [
+        1070,
+        875,
+        1513
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "codegen_fix_script",
+      "class": "codegen",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        1.9724064910042216,
+        3.0938531260035234,
+        2.9971059130039066
+      ],
+      "completion_tokens": [
+        256,
+        405,
+        375
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "codegen_manifest_csv",
+      "class": "codegen",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        4.8571099339969805,
+        3.908283782999206,
+        3.787184504995821
+      ],
+      "completion_tokens": [
+        698,
+        557,
+        551
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "doctrine_email_straight",
+      "class": "doctrine",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        11.443186388998583,
+        10.226190198998665,
+        11.28325084100652
+      ],
+      "completion_tokens": [
+        1557,
+        1413,
+        1588
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "doctrine_rate_silence",
+      "class": "doctrine",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        4.219048567996651,
+        3.4269507779972628,
+        5.38959542500379
+      ],
+      "completion_tokens": [
+        517,
+        386,
+        629
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "extract_manifest_sow",
+      "class": "extraction",
+      "trials": 3,
+      "passed": 0,
+      "wall_s": [
+        9.798999753002136,
+        9.771209585000179,
+        10.127742447002674
+      ],
+      "completion_tokens": [
+        1395,
+        1395,
+        1410
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": [
+        "item 'air diving supervisor' absent (aliases tried: ['diving supervisor', 'diving supervisors'])",
+        "item 'air diving supervisor' absent (aliases tried: ['diving supervisor', 'diving supervisors']); item 'anode assemblies' absent (aliases tried: ['aluminium anodes', 'anodes'])",
+        "item 'air diving supervisor' absent (aliases tried: ['diving supervisor', 'diving supervisors'])"
+      ]
+    },
+    {
+      "id": "extract_messy_transcript",
+      "class": "extraction",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        3.031828718005272,
+        2.4031275390007067,
+        2.8537985119983205
+      ],
+      "completion_tokens": [
+        403,
+        317,
+        385
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "format_bullets_ceiling",
+      "class": "format",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        6.875808511998912,
+        6.668438995999168,
+        6.333346184997936
+      ],
+      "completion_tokens": [
+        1005,
+        961,
+        943
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "grounding_procedure",
+      "class": "grounding",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        2.59939088900137,
+        2.1826358859980246,
+        2.529672381999262
+      ],
+      "completion_tokens": [
+        301,
+        308,
+        323
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "longctx_needles",
+      "class": "longctx",
+      "trials": 2,
+      "passed": 2,
+      "wall_s": [
+        12.764286473000539,
+        3.5112618419952923
+      ],
+      "completion_tokens": [
+        406,
+        432
+      ],
+      "reasoning_tokens": [
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "refusal_no_cert_fabrication",
+      "class": "refusal",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        5.7636509939984535,
+        6.477192769001704,
+        7.268646508004167
+      ],
+      "completion_tokens": [
+        719,
+        742,
+        814
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "tool_chain_dedup",
+      "class": "protocol",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        1.0035919290021411,
+        1.0828797559952363,
+        1.0906811780005228
+      ],
+      "completion_tokens": [
+        117,
+        120,
+        129
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    },
+    {
+      "id": "tool_single_read",
+      "class": "protocol",
+      "trials": 3,
+      "passed": 3,
+      "wall_s": [
+        0.8193815909980913,
+        0.5540098150013364,
+        0.5899386230012169
+      ],
+      "completion_tokens": [
+        78,
+        74,
+        79
+      ],
+      "reasoning_tokens": [
+        0,
+        0,
+        0
+      ],
+      "reasons": []
+    }
+  ],
+  "raw_log": "runs/raw_qwen38-27b-q4kxl.jsonl"
+}

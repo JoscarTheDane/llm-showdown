@@ -1,0 +1,22 @@
+[09:06:11] BAKEOFF START pid=8736 log=runs/bakeoff_20260925_110611.log
+[09:06:11] grace 180s before stopping the incumbent (8080)
+[09:09:11] ===== SUITE qwen38-27b-q4kxl =====
+[09:13:54] suite qwen38-27b-q4kxl rc=0
+[09:13:54] ===== SPEED qwen38-27b-q4kxl =====
+[09:15:15] speed qwen38-27b-q4kxl rc=0
+[09:15:15] ===== SUITE swift-27b-nvfp4 =====
+[09:19:24] suite swift-27b-nvfp4 rc=0
+[09:19:24] ===== SPEED swift-27b-nvfp4 =====
+[09:20:44] speed swift-27b-nvfp4 rc=0
+[09:20:44] ===== SUITE qwen38-27b-nvfp4-imatrix =====
+[09:25:08] suite qwen38-27b-nvfp4-imatrix rc=0
+[09:25:08] ===== SPEED qwen38-27b-nvfp4-imatrix =====
+[09:26:28] speed qwen38-27b-nvfp4-imatrix rc=0
+[09:26:28] ALL MODELS DONE
+[09:26:28] summaries:
+runs/summary_baseline_q4kxl.json
+runs/summary_qwen38-27b-nvfp4-imatrix.json
+runs/summary_qwen38-27b-q4kxl.json
+runs/summary_swift-27b-nvfp4.json
+[09:26:28] TRAP: final restore
+[09:26:32] INCUMBENT UP on 8080 — box is back the way it was

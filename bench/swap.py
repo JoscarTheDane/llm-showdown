@@ -55,7 +55,19 @@ def _run(cmd: list[str] | str, check: bool = False, timeout: int = 60) -> tuple[
         return 124, f"timeout: {' '.join(cmd)}"
 
 
-def sudo_available() -> bool:
+def sudo_available(service: str | None = None) -> bool:
+    """Can we run the commands this manager actually needs, without a prompt?
+
+    Tests the real command rather than `true`: the recommended setup is a
+    command-restricted NOPASSWD drop-in that authorises only the systemctl
+    verbs, and `true` would report false there even though every call the
+    manager makes is in fact permitted.
+    """
+    if service:
+        # Permitted + active -> 0, permitted + inactive -> 3. Only a sudo
+        # refusal (1) or an error means "not usable".
+        rc, _ = _run(["sudo", "-n", "systemctl", "is-active", service], timeout=15)
+        return rc in (0, 3)
     rc, _ = _run(["sudo", "-n", "true"], timeout=15)
     return rc == 0
 
@@ -84,6 +96,44 @@ def load_registry(path: str = "models.yaml") -> dict:
     if not p.exists():
         p = Path(__file__).resolve().parent.parent / "models.yaml"
     return yaml.safe_load(p.read_text())
+
+
+def resolve_gguf(path: str, cache_root: str | None = None) -> str:
+    """Return a usable path to the weights.
+
+    A configured path often points at a tidy location that does not exist yet,
+    while the download already sits in the Hugging Face cache under a
+    commit-hashed snapshot directory. Rather than require a manual copy (and
+    then let the two copies drift), fall back to the cache and match on
+    basename. Falls through unchanged if nothing is found, so the caller still
+    reports the intended path in its error message.
+    """
+    p = Path(path)
+    if p.exists():
+        return str(p)
+    root = Path(cache_root or os.path.expanduser("~/.cache/huggingface/hub"))
+    if root.exists():
+        hits = sorted(root.glob(f"models--*/snapshots/*/{p.name}"))
+        if hits:
+            return str(hits[-1])
+    return str(p)
+
+
+def merge_defaults(registry: dict, name: str) -> dict:
+    """Model config with the shared `defaults` folded in underneath it.
+
+    Without this, a per-model entry silently ignored every default — including
+    the shared server binary, which is the fairness rule of the whole stand-off.
+    """
+    models = registry.get("models", {})
+    if name not in models:
+        raise SystemExit(f"unknown model {name!r}; known: {', '.join(sorted(models))}")
+    cfg = dict(registry.get("defaults") or {})
+    cfg.update(models[name])
+    cfg["name"] = name
+    if "gguf" in cfg:
+        cfg["gguf"] = resolve_gguf(cfg["gguf"])
+    return cfg
 
 
 # --------------------------------------------------------------------------- #
@@ -199,15 +249,25 @@ class ModelManager:
         if self.verbose:
             print(f"[swap] {msg}", flush=True)
 
+    def model(self, name: str) -> dict:
+        """Merged, cache-resolved config for one model. Single source of truth."""
+        cache = getattr(self, "_cache", None)
+        if cache is None:
+            cache = self._cache = {}
+        if name not in cache:
+            cache[name] = merge_defaults(self.registry, name)
+        return cache[name]
+
     # ---- preflight ----
     def preflight(self, name: str) -> dict:
-        cfg = self.registry["models"].get(name)
-        if cfg is None:
-            raise SystemExit(f"unknown model {name!r}; registry has "
-                             f"{sorted(self.registry['models'])}")
+        cfg = self.model(name)
         gguf = Path(cfg["gguf"])
         if not gguf.exists():
-            raise SystemExit(f"model file missing: {gguf}")
+            raise SystemExit(
+                f"model file missing: {gguf}\n"
+                "  (also checked the Hugging Face cache for a file with the same "
+                "name — if the download is still running, wait for it to finish)"
+            )
         size_mib = gguf.stat().st_size // (1024 * 1024)
         free = gpu_free_mib()
         swap = swap_in_use_mib()
@@ -232,10 +292,10 @@ class ModelManager:
     # ---- handover ----
     def stand_up(self, name: str) -> dict:
         report = self.preflight(name)
-        cfg = self.registry["models"][name]
+        cfg = self.model(name)
         self.incumbent = incumbent_model(self.service)
         self.log(f"incumbent: {self.incumbent or 'none'}")
-        if not self.dry_run and not sudo_available():
+        if not self.dry_run and not sudo_available(self.service):
             raise SystemExit(SUDO_HELP)
 
         state = {"incumbent": self.incumbent, "candidate": name,
@@ -268,7 +328,15 @@ class ModelManager:
         return {**report, "incumbent": self.incumbent, "healthy": True}
 
     def _server_cmd(self, name: str, cfg: dict) -> list[str]:
-        binary = cfg.get("binary", "/home/joshua/llama.cpp/build/bin/llama-server")
+        # No hardcoded fallback: the shared binary is the fairness rule, so a
+        # missing one must fail loudly rather than quietly pick a different build.
+        binary = cfg.get("binary")
+        if not binary:
+            raise SystemExit(
+                f"no server binary for {name!r} — set `defaults.binary` in models.yaml"
+            )
+        if not Path(binary).exists():
+            raise SystemExit(f"server binary not found: {binary}")
         cmd = [binary, "-m", cfg["gguf"],
                "--host", "127.0.0.1", "--port", str(cfg.get("port", 8095)),
                "--ctx-size", str(cfg.get("ctx", 163840)),

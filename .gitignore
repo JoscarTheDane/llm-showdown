@@ -4,6 +4,16 @@ runs/
 summary_*.json
 speed_*.json
 showdown_*.md
+bakeoff_*.log
+# the published result set (curated by hand, never the whole runs/ dir)
+!results/
+!results/summary_*.json
+!results/speed_*.json
+!results/showdown_*.md
+!results/bakeoff_*.log
+# the pre-grader-fix baseline is superseded; the tarball duplicates the raw files
+results/summary_baseline_*.json
+results/*.tar.gz
 
 # python
 __pycache__/
